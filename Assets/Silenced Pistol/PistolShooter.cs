@@ -41,11 +41,19 @@ public class PistolShooter : MonoBehaviour
         if (hasHit)
         {
             endPoint = hit.point;
-            Quaternion rayImpactRotation = Quaternion.LookRotation(-hit.normal);
-            if (rayImpactPrefab != null)
+            GuardDeath guardDeath = hit.transform.GetComponent<GuardDeath>();
+            if (guardDeath)
             {
-                GameObject rayImpact = Instantiate(rayImpactPrefab, hit.point, rayImpactRotation);
-                Destroy(rayImpact, .5f);
+                guardDeath.TriggerDeath();
+            }
+            else
+            {
+                Quaternion rayImpactRotation = Quaternion.LookRotation(-hit.normal);
+                if (rayImpactPrefab != null)
+                {
+                    GameObject rayImpact = Instantiate(rayImpactPrefab, hit.point, rayImpactRotation);
+                    Destroy(rayImpact, .5f);
+                }
             }
         }
         else
